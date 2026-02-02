@@ -1,0 +1,55 @@
+POST http://localhost:4000/courses
+Content-Type: application/json
+
+{
+  "title": "Node.jsasdf",
+  "grade": 100,
+  "subject": "Matsh"
+}
+
+###
+GET http://localhost:4000/courses
+
+###
+DELETE http://localhost:4000/courses/6817eb4dbd7c58be292b20ae
+
+###
+PATCH http://localhost:4000/courses/6817eb4dbd7c58be292b20ae
+Content-Type: application/json
+
+{
+  "title": "dfs",
+  "grade": 15
+}
+
+###
+POST http://localhost:4000/courses/68197344b79f5f357ec4f991/content
+Content-Type: application/json
+
+{
+  "title": "Node.js3",
+  "type": "lesson",
+  "content": "This is a lesson about Node.js"
+}
+
+###
+DELETE http://localhost:4000/courses/6817eb4dbd7c58be292b20ae/content/0
+
+###
+PATCH http://localhost:4000/courses/68197344b79f5f357ec4f991/content/reorder
+Content-Type: application/json
+
+{
+  "newOrder": [1, 0, 2, 3]
+}
+
+###
+DELETE http://localhost:4000/courses/68197344b79f5f357ec4f991/content/0
+
+###
+PATCH http://localhost:4000/courses/68197344b79f5f357ec4f991/content/0
+Content-Type: application/json
+
+{
+  "content": "[]"
+}
