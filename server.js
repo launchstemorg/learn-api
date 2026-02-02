@@ -14,6 +14,10 @@ MongoClient.connect(process.env.CONNECTION_STRING)
   })
   .catch((err) => console.log(err));
 
+app.get("/", (req, res) => {
+  res.json({ message: "Hello world" });
+});
+
 app.post("/courses", (req, res) => {
   db = app.locals.db;
   let courseWithTimestamp = {
@@ -41,7 +45,7 @@ app.patch("/courses/:id", (req, res) => {
   db = app.locals.db;
   db.collection("courses").updateOne(
     { _id: new ObjectId(req.params.id) },
-    { $set: req.body }
+    { $set: req.body },
   );
   res.send("Course updated");
 });
@@ -74,7 +78,7 @@ app.post("/courses/:id/content", (req, res) => {
         .collection("courses")
         .updateOne(
           { _id: new ObjectId(req.params.id) },
-          { $push: { contentlist: contentWithId } }
+          { $push: { contentlist: contentWithId } },
         );
     })
     .then(() => {
@@ -97,7 +101,7 @@ app.delete("/courses/:id/content/:contentid", (req, res) => {
     .then((course) => {
       // Remove the content
       course.contentlist = course.contentlist.filter(
-        (content) => content.id !== parseInt(req.params.contentid)
+        (content) => content.id !== parseInt(req.params.contentid),
       );
       // Reorder remaining content ids
       course.contentlist = course.contentlist.map((content, index) => ({
@@ -109,7 +113,7 @@ app.delete("/courses/:id/content/:contentid", (req, res) => {
         .collection("courses")
         .updateOne(
           { _id: new ObjectId(req.params.id) },
-          { $set: { contentlist: course.contentlist } }
+          { $set: { contentlist: course.contentlist } },
         );
     })
     .then(() => {
@@ -142,7 +146,7 @@ app.patch("/courses/:id/content/reorder", (req, res) => {
         .collection("courses")
         .updateOne(
           { _id: new ObjectId(req.params.id) },
-          { $set: { contentlist: contentlist } }
+          { $set: { contentlist: contentlist } },
         )
         .then(() => contentlist); // Return the contentlist for the next then block
     })
@@ -161,7 +165,7 @@ app.delete("/courses/:id/content/:contentid", (req, res) => {
     .then((course) => {
       // First filter out the deleted content
       course.contentlist = course.contentlist.filter(
-        (content) => content.id !== parseInt(req.params.contentid)
+        (content) => content.id !== parseInt(req.params.contentid),
       );
 
       // Readjust remaining ids to be sequential starting from 0
@@ -174,7 +178,7 @@ app.delete("/courses/:id/content/:contentid", (req, res) => {
         .collection("courses")
         .updateOne(
           { _id: new ObjectId(req.params.id) },
-          { $set: { contentlist: course.contentlist } }
+          { $set: { contentlist: course.contentlist } },
         );
     })
     .then(() => {
@@ -189,7 +193,7 @@ app.patch("/courses/:id/content/:contentid", (req, res) => {
     .then((course) => {
       // Find the index of content to update
       const contentIndex = course.contentlist.findIndex(
-        (content) => content.id === parseInt(req.params.contentid)
+        (content) => content.id === parseInt(req.params.contentid),
       );
       if (contentIndex === -1) {
         return res.status(404).json({ error: "Content not found" });
@@ -206,7 +210,7 @@ app.patch("/courses/:id/content/:contentid", (req, res) => {
         .collection("courses")
         .updateOne(
           { _id: new ObjectId(req.params.id) },
-          { $set: { contentlist: course.contentlist } }
+          { $set: { contentlist: course.contentlist } },
         );
     })
     .then(() => {
